@@ -10,6 +10,13 @@ var users = require('./routes/users');
 
 var app = express();
 
+var mongoose = require('mongoose'); //Requiring mongoose library
+
+mongoose.connct('mongodb://localhost/news'); //Opens a connection with news database
+
+require('./models/Posts'); //Requires both models
+require('./models/Comments');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
