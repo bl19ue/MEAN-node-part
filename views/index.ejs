@@ -1,11 +1,84 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+	<head>
+		<title>News</title>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+
+		<script src="/javascripts/angularApp.js"></script>
+		<style> .glyphicon-thumbs-up { cursor:pointer } </style>
+	</head>
+
+	<body ng-app="myNews">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<ui-view></ui-view>									<!-- Now whenever there is a state change, the ui-router will set the template for that between the ui-view -->
+			</div>
+		</div>
+		<!-- Home.html template -->
+		<script type="text/ng-template" id="/home.html">			<!-- This is the template for home.html -->
+
+			<div class="page-header">
+				<h1>N News</h1>
+			</div>
+			<div ng-repeat="n in news | orderBy: '-upvotes'" >			<!-- Loop with orderBy to sort acc to no. of votes -->
+				<span class="glyphicon glyphicon-thumbs-up" ng-click="increaseVotes(n)"></span>			<!-- A call to increaseVotes(a signle vote) -->								
+				{{n.upvotes}}
+				<span style="font-size:20px; margin-left:10px;">
+					<a href="{{n.link}}" ng-show="n.link">				<!-- show link if there is a link for the news -->
+						{{n.title}}
+			</a>
+					<span ng-hide="n.link">								<!-- Hide title if there is a link -->
+						{{n.title}}
+			</span>				
+			</span>
+				<span>
+					<a href="#/news/{{$index}}">Comments</a>			<!-- When ng-repeat is used, it automatically creates an $index for uniquely assigning an id to each object -->
+						({{news.comment.length}})
+			</span>
+			</div>
+			<form ng-submit="addNews()" style="margin-top:30px;">
+				<h3>Add a news</h3>
+					<div class="form-group">
+						<input type="text" placeholder="Title" ng-model="title" class="form-control">
+			</div>
+					<div class="form-group">
+						<input type="text" placeholder="Link" ng-model="link" class="form-control">
+			</div>
+					<button type="submit" class="btn btn-primary">Add News</button>
+			</form>
+
+		</script>
+		<!-- news.html template -->
+		<script type="text/ng-template" id="/news.html">				<!-- Another template for showing single news details -->
+			<div class="page-header">
+				<h3>
+					<a ng-show="onenews.link" href="{{onenews.link}}">	
+						{{onenews.title}}
+			</a>
+					<span ng-hide="onenews.link">
+						{{onenews.title}}
+			</span>
+			</h3>
+			</div>
+
+			<div ng-repeat="comment in onenews.comments | orderBy: '-upvotes'">
+				<span class="glyphicon glyphicon-thumbs-up" ng-click="increaseCommentVotes(comment)"></span>
+				{{comment.upvotes}} - by {{comment.author}}
+				<span style="font-size:20px; margin-left:10px;">
+					{{comment.body}}								<!-- For the comment body -->
+			</span>
+			</div>
+
+			<form ng-submit="addComment()" style="margin-top:30px;">
+				<h3>Add a new comment</h3>
+
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+			</div>
+				<button type="submit" class="btn btn-primary">Post</button>
+			</form>
+		</script>
+
+	</body>
 </html>
