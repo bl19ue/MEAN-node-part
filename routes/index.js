@@ -28,4 +28,24 @@ router.post('/news', function(req, res, next){
 	});
 });
 
+
+//This is actually a middleware where we can for example validate the url parameter which is passed etc.
+router.param('news', function(req, res, next, id){ 		//Express params(automatically load objects) helps to get the id for a particular model
+	var query = News.findById(id);						//Searching one particular document
+	
+	query.exec(function(err, news){
+		if(err) {return next(err);}
+		if(!news) {return next(new Error("Can't find news"));}
+		
+		req.news = news;
+		return next();									//Moves to the next controlling function
+	});
+});
+
+
+//If any request comes to this, it goes first to param('news')
+router.get('/news/:news', function(req, res){
+	res.json(req.news);
+});
+
 module.exports = router;
