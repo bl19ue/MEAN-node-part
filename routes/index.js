@@ -48,4 +48,12 @@ router.get('/news/:news', function(req, res){
 	res.json(req.news);
 });
 
+router.put('/news/:news/upvote', function(req, res, next){		//Put method to update a vote with one
+	req.news.upvote(function(err, news){
+		if(err) {return next(err);}
+		
+		res.json(news);
+	});
+});
+
 module.exports = router;
