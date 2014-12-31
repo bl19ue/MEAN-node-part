@@ -6,7 +6,12 @@ angular.module('myNews', ['ui.router'])								//Included UI router same as ng-r
 			.state('home', {										//Setting up of home route
 				url: '/home',									//Real path URL
 				templateUrl: '/home.html',						//What it will really show 
-				controller: 'NewsCtrl'							//This state will be controlled by NewsCtrl
+				controller: 'NewsCtrl',							//This state will be controlled by NewsCtrl
+				resolve:{										//Resolve is used to ensure that even before the state is loaded, all the news will be queried
+					newsPromise: ['news', function(news){
+						return news.getAll();
+					}]
+				}
 			})
 			.state('news', {
 				url: '/news/{id}',
@@ -16,10 +21,18 @@ angular.module('myNews', ['ui.router'])								//Included UI router same as ng-r
 			 $urlRouterProvider.otherwise('home');					//Finally otherwise() is used so that if any other URL is received, it should always go to state 'home'
 		 }])
 
-	.factory('news', [function(){									//A factory to contain all the news and other related stuff
+	//+http injected	//A factory to contain all the news and other related stuff
+	.factory('news',  ['$http', function($http){		
 		//service body
 		var o = {
-			news: [{title: 'hello', link:'', upvotes: 0}]
+			news: []										//No more default news as we are going to copy news from database
+		};
+
+/*=============== Call this from whenever you want all the news to be shown, for this we need to call it from home state=============================*/
+		o.getAll = function(){														//This function gets all of the news from the /news GET requests, if there is any response, success method is called
+			return $http.get('/news').success(function(data){						//http is used to use GET request from here
+				angular.copy(data, o.news);											//angular copy is used cause it will update the UI properly
+			});								
 		};
 		return o;
 	}])
