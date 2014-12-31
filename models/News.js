@@ -12,6 +12,7 @@ var NewsSchema = new mongoose.Schema({	//News Schema
 NewsSchema.methods.upvote = function(cb){			//A new method for the NewsSchema, which updates the vote by 1 when called
 	this.upvotes += 1;
 	this.save(cb);
+	//console.log("cb= "+ cb);
 };
 
 mongoose.model('News', NewsSchema);
