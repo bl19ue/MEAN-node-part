@@ -33,8 +33,8 @@
 			</span>				
 			</span>
 				<span>
-					<a href="#/news/{{$index}}">Comments</a>			<!-- When ng-repeat is used, it automatically creates an $index for uniquely assigning an id to each object -->
-						({{news.comment.length}})
+					<a href="#/news/{{n._id}}">Comments</a>			<!-- Now we use news id -->
+						({{n.comments.length}})
 			</span>
 			</div>
 			<form ng-submit="addNews()" style="margin-top:30px;">
