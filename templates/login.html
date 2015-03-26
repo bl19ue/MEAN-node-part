@@ -1,0 +1,23 @@
+<form ng-submit="checkUser()">
+	<div class="form-group">
+		<label>Email</label>
+		<input type="text" placeholder="username" class="form-control" ng-model="username"></input>
+	</div>
+
+<div class="form-group">
+	<label>Password</label>
+	<input type="password" placeholder="Password" class="form-control" ng-model="password"></input>
+</div>
+
+<button type="submit" class="btn btn-primary">Log in</button> 
+</form>
+
+
+<h1>Sign Up</h1>
+<form ng-submit="signUp()">
+	<input type="text" placeholder="Name" ng-model="companyname"/><br>
+	<input type="text" placeholder="Username" ng-model="companyusername"/><br>
+	<input type="text" placeholder="Password" ng-model="companypassword"/><br>
+	<input type="text" placeholder="Verify Password" ng-model="verifypassword"/><br>
+	<input type="submit" value="Sign Up"></input> 
+</form>

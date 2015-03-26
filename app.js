@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose'); //Requiring mongoose library
 
-mongoose.connect('mongodb://localhost/news'); //Opens a connection with news database
-
+mongoose.connect('mongodb://localhost/JobReco'); //Opens a connection with news database
+require('./models/Company');
+require('./models/Jobs');
 require('./models/News'); //Requires both models
 require('./models/Comments'); //Must be required before the routes, so that models can be registered
 
@@ -66,4 +67,4 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+app.listen(9090);
